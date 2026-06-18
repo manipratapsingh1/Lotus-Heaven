@@ -517,17 +517,20 @@ const AdminDashboard = () => {
 
                         <div className="space-y-2">
                           <Label htmlFor="type">Room Type</Label>
-                          <select
-                            id="type"
-                            className="w-full px-3 py-2 border border-input rounded-md bg-background"
+                          <Select
                             value={formData.type}
-                            onChange={(e) => setFormData({ ...formData, type: e.target.value })}
+                            onValueChange={(value) => setFormData({ ...formData, type: value })}
                           >
-                            <option value="standard">Standard</option>
-                            <option value="deluxe">Deluxe</option>
-                            <option value="suite">Suite</option>
-                            <option value="executive">Executive</option>
-                          </select>
+                            <SelectTrigger id="type" className="w-full bg-background border-input rounded-md h-10">
+                              <SelectValue placeholder="Select room type" />
+                            </SelectTrigger>
+                            <SelectContent className="glass-card border border-primary/20">
+                              <SelectItem value="standard">Standard</SelectItem>
+                              <SelectItem value="deluxe">Deluxe</SelectItem>
+                              <SelectItem value="suite">Suite</SelectItem>
+                              <SelectItem value="executive">Executive</SelectItem>
+                            </SelectContent>
+                          </Select>
                         </div>
 
                         <div className="space-y-2 col-span-2">

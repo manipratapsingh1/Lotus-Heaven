@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useExpenseStore, CATEGORY_CONFIG } from '@/lib/stores/expenseStore';
 import { useTripStore } from '@/lib/stores/tripStore';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const ExpenseManager = () => {
   const { expenses, addExpense, deleteExpense, budgets, setBudget } = useExpenseStore();
@@ -97,10 +98,20 @@ const ExpenseManager = () => {
                   <div className="space-y-4 mt-4">
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2"><Label>Title</Label><Input value={newExpense.title} onChange={(e) => setNewExpense({ ...newExpense, title: e.target.value })} placeholder="Dinner at restaurant" /></div>
-                      <div className="space-y-2"><Label>Category</Label>
-                        <select className="w-full px-3 py-2 border border-input rounded-md bg-background" value={newExpense.category} onChange={(e) => setNewExpense({ ...newExpense, category: e.target.value })}>
-                          {Object.entries(CATEGORY_CONFIG).map(([key, val]) => <option key={key} value={key}>{val.icon} {val.label}</option>)}
-                        </select>
+                      <div className="space-y-2 flex flex-col justify-end">
+                        <Label className="mb-1">Category</Label>
+                        <Select value={newExpense.category} onValueChange={(val) => setNewExpense({ ...newExpense, category: val })}>
+                          <SelectTrigger className="w-full bg-background border-input rounded-md h-10">
+                            <SelectValue placeholder="Select Category" />
+                          </SelectTrigger>
+                          <SelectContent className="glass-card border border-primary/20">
+                            {Object.entries(CATEGORY_CONFIG).map(([key, val]) => (
+                              <SelectItem key={key} value={key}>
+                                {val.icon} {val.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
                       <div className="space-y-2"><Label>Amount</Label><Input type="number" value={newExpense.amount} onChange={(e) => setNewExpense({ ...newExpense, amount: e.target.value })} placeholder="1500" /></div>
                       <div className="space-y-2"><Label>Date</Label><Input type="date" value={newExpense.date} onChange={(e) => setNewExpense({ ...newExpense, date: e.target.value })} /></div>
@@ -199,7 +210,9 @@ const ExpenseManager = () => {
                 <div className="flex items-end gap-2 h-48">
                   {dailySpending.map(([date, amount]) => (
                     <div key={date} className="flex-1 flex flex-col items-center gap-2">
-                      <span className="text-xs font-bold text-foreground">₹{Math.round(amount / 1000)}k</span>
+                      <span className="text-xs font-bold text-foreground">
+                        {amount >= 1000 ? `₹${(amount / 1000).toFixed(1).replace(/\.0$/, '')}k` : `₹${amount}`}
+                      </span>
                       <motion.div initial={{ height: 0 }} animate={{ height: `${(amount / maxDaily) * 100}%` }} transition={{ duration: 0.8 }}
                         className="w-full bg-gradient-to-t from-primary to-accent rounded-t-lg min-h-[4px]" />
                       <span className="text-xs text-muted-foreground">{new Date(date).toLocaleDateString('en', { day: '2-digit', month: 'short' })}</span>

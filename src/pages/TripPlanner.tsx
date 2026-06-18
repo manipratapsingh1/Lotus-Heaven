@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { useTripStore, Trip, TripActivity } from '@/lib/stores/tripStore';
 import { destinations } from '@/lib/destinationData';
 import { ItineraryMap } from '@/components/ItineraryMap';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const CATEGORY_CONFIG: Record<string, { label: string; color: string; icon: string }> = {
   sightseeing: { label: 'Sightseeing', color: 'bg-blue-500/20 text-blue-400 border-blue-500/30', icon: '🏛️' },
@@ -109,10 +110,19 @@ const TripPlanner = () => {
                     <div className="space-y-2"><Label>Start Date</Label><Input type="date" value={newTrip.startDate} onChange={(e) => setNewTrip({ ...newTrip, startDate: e.target.value })} /></div>
                     <div className="space-y-2"><Label>End Date</Label><Input type="date" value={newTrip.endDate} onChange={(e) => setNewTrip({ ...newTrip, endDate: e.target.value })} /></div>
                     <div className="space-y-2"><Label>Budget</Label><Input type="number" value={newTrip.budget} onChange={(e) => setNewTrip({ ...newTrip, budget: e.target.value })} placeholder="50000" /></div>
-                    <div className="space-y-2"><Label>Currency</Label>
-                      <select className="w-full px-3 py-2 border border-input rounded-md bg-background" value={newTrip.currency} onChange={(e) => setNewTrip({ ...newTrip, currency: e.target.value })}>
-                        <option value="₹">₹ INR</option><option value="$">$ USD</option><option value="€">€ EUR</option><option value="£">£ GBP</option>
-                      </select>
+                    <div className="space-y-2 flex flex-col justify-end">
+                      <Label className="mb-1">Currency</Label>
+                      <Select value={newTrip.currency} onValueChange={(val) => setNewTrip({ ...newTrip, currency: val })}>
+                        <SelectTrigger className="w-full bg-background border-input rounded-md h-10">
+                          <SelectValue placeholder="Currency" />
+                        </SelectTrigger>
+                        <SelectContent className="glass-card border border-primary/20">
+                          <SelectItem value="₹">₹ INR</SelectItem>
+                          <SelectItem value="$">$ USD</SelectItem>
+                          <SelectItem value="€">€ EUR</SelectItem>
+                          <SelectItem value="£">£ GBP</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
                   <Button onClick={handleCreateTrip} className="w-full bg-gradient-gold hover:opacity-90 text-primary-foreground py-6 font-semibold">Create Trip</Button>
@@ -228,10 +238,20 @@ const TripPlanner = () => {
                     </div>
                     <div className="space-y-2"><Label>Activity</Label><Input value={newActivity.title} onChange={(e) => setNewActivity({ ...newActivity, title: e.target.value })} placeholder="Visit Eiffel Tower" /></div>
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2"><Label>Category</Label>
-                        <select className="w-full px-3 py-2 border border-input rounded-md bg-background" value={newActivity.category} onChange={(e) => setNewActivity({ ...newActivity, category: e.target.value as TripActivity['category'] })}>
-                          {Object.entries(CATEGORY_CONFIG).map(([key, val]) => <option key={key} value={key}>{val.icon} {val.label}</option>)}
-                        </select>
+                      <div className="space-y-2 flex flex-col justify-end">
+                        <Label className="mb-1">Category</Label>
+                        <Select value={newActivity.category} onValueChange={(val) => setNewActivity({ ...newActivity, category: val as TripActivity['category'] })}>
+                          <SelectTrigger className="w-full bg-background border-input rounded-md h-10">
+                            <SelectValue placeholder="Select Category" />
+                          </SelectTrigger>
+                          <SelectContent className="glass-card border border-primary/20">
+                            {Object.entries(CATEGORY_CONFIG).map(([key, val]) => (
+                              <SelectItem key={key} value={key}>
+                                {val.icon} {val.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </div>
                       <div className="space-y-2"><Label>Cost</Label><Input type="number" value={newActivity.cost} onChange={(e) => setNewActivity({ ...newActivity, cost: e.target.value })} placeholder="0" /></div>
                     </div>

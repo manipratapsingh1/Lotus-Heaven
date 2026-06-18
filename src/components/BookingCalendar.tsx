@@ -35,10 +35,15 @@ export const BookingCalendar = ({ roomId }: BookingCalendarProps) => {
   const bookedDates = useMemo(() => {
     const dates = new Set<string>();
     bookings.forEach((b) => {
-      const start = new Date(b.checkIn);
-      const end = new Date(b.checkOut);
+      const startStr = b.checkIn.split('T')[0];
+      const endStr = b.checkOut.split('T')[0];
+      const start = new Date(startStr + 'T00:00:00');
+      const end = new Date(endStr + 'T00:00:00');
       for (let d = new Date(start); d < end; d.setDate(d.getDate() + 1)) {
-        dates.add(d.toISOString().split('T')[0]);
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        const dayStr = String(d.getDate()).padStart(2, '0');
+        dates.add(`${y}-${m}-${dayStr}`);
       }
     });
     return dates;
@@ -47,7 +52,13 @@ export const BookingCalendar = ({ roomId }: BookingCalendarProps) => {
   const prevMonth = () => setCurrentDate(new Date(year, month - 1, 1));
   const nextMonth = () => setCurrentDate(new Date(year, month + 1, 1));
 
-  const today = new Date().toISOString().split('T')[0];
+  const today = useMemo(() => {
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const dayStr = String(d.getDate()).padStart(2, '0');
+    return `${y}-${m}-${dayStr}`;
+  }, []);
   const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   return (
