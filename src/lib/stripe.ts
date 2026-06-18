@@ -1,7 +1,7 @@
-# Stripe integration — the backend handles all Stripe API calls.
-# The frontend redirects users to Stripe's hosted checkout via the backend's
-# POST /api/payments/checkout/:bookingId endpoint, which returns a Stripe
-# Checkout Session URL. No publishable key is needed on the frontend.
+// Stripe integration — the backend handles all Stripe API calls.
+// The frontend redirects users to Stripe's hosted checkout via the backend's
+// POST /api/payments/checkout/:bookingId endpoint, which returns a Stripe
+// Checkout Session URL. No publishable key is needed on the frontend.
 
 export interface PaymentResult {
   success: boolean;

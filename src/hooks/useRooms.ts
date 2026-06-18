@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { roomsApi, SearchParams } from '@/lib/api-client';
+import { roomsApi } from '@/lib/api-client';
+import { SearchParams } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { mockRooms } from '@/lib/mock-data';
 

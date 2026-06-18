@@ -7,10 +7,10 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Global prefixes and configuration
+  // ================= GLOBAL PREFIX =================
   app.setGlobalPrefix('api');
 
-  // Input Validation
+  // ================= VALIDATION =================
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -19,29 +19,34 @@ async function bootstrap() {
     }),
   );
 
-  // Cookie parsing for secure authentication tokens
+  // ================= COOKIE PARSER =================
   app.use(cookieParser());
 
-  // CORS config to support frontend cookies & requests
+  // ================= CORS (CRITICAL FOR RAILWAY) =================
+  const frontendUrl = process.env.FRONTEND_URL;
   app.enableCors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
-    credentials: true,
+    origin: frontendUrl
+      ? [frontendUrl, frontendUrl.replace(/\/$/, '')]
+      : true,
+    credentials: true,                // REQUIRED for cookies
   });
 
-  // Swagger Documentation Setup
+  // ================= SWAGGER =================
   const config = new DocumentBuilder()
     .setTitle('Bloom Haven BnB API')
-    .setDescription('Enterprise-grade API specs for Bloom Haven booking system')
+    .setDescription('Enterprise-grade API for booking system')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
-  
+
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
-  const port = (process.env.PORT || 3000);
-  // Fixed: passing the evaluated 'port' variable instead of re-evaluating the env string
-  await app.listen(port);
-  console.log(`Server started on http://localhost:${port}`);
+  // ================= SERVER START =================
+  const port = Number(process.env.PORT) || 3000;
+
+  await app.listen(port, '0.0.0.0');
+
+  console.log(`🚀 Server running on port ${port}`);
 }
 bootstrap();

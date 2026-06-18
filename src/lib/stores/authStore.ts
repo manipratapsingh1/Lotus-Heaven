@@ -32,6 +32,12 @@ export const useAuthStore = create<AuthState>((set) => ({
   login: async (email: string, password: string) => {
     checkAuthPromise = null;
     const result = await authApi.login({ email, password });
+    if (result.accessToken) {
+      localStorage.setItem('access_token', result.accessToken);
+    }
+    if (result.refreshToken) {
+      localStorage.setItem('refresh_token', result.refreshToken);
+    }
     set({
       user: result.user,
       isAuthenticated: true,
@@ -41,6 +47,12 @@ export const useAuthStore = create<AuthState>((set) => ({
   register: async (email: string, password: string, fullName?: string) => {
     checkAuthPromise = null;
     const result = await authApi.register({ email, password, fullName });
+    if (result.accessToken) {
+      localStorage.setItem('access_token', result.accessToken);
+    }
+    if (result.refreshToken) {
+      localStorage.setItem('refresh_token', result.refreshToken);
+    }
     set({
       user: result.user,
       isAuthenticated: true,
@@ -54,6 +66,8 @@ export const useAuthStore = create<AuthState>((set) => ({
     } catch {
       // Clear state even if API call fails
     }
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
     set({
       user: null,
       isAuthenticated: false,

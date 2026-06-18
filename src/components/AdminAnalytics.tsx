@@ -42,7 +42,7 @@ export const AdminAnalytics = () => {
   }, {});
 
   const revenueData = Object.keys(monthlyData).length > 0
-    ? Object.entries(monthlyData).map(([month, data]) => ({
+    ? (Object.entries(monthlyData) as [string, { revenue: number; bookings: number }][]).map(([month, data]) => ({
         month,
         revenue: Math.round(data.revenue),
         bookings: data.bookings,
