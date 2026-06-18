@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import cookieParser from 'cookie-parser';
+import * as cookieParser from 'cookie-parser';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
@@ -39,8 +39,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
-  const port = process.env.PORT || 3000;
-  await app.listen(process.env.PORT || 3000);
+  const port = (process.env.PORT || 3000);
+  // Fixed: passing the evaluated 'port' variable instead of re-evaluating the env string
+  await app.listen(port);
   console.log(`Server started on http://localhost:${port}`);
 }
 bootstrap();
