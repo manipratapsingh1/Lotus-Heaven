@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: bloomhaven-db
+    environment:
+      POSTGRES_USER: bloomhaven
+      POSTGRES_PASSWORD: bloomhaven_secret
+      POSTGRES_DB: bloomhaven
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: bloomhaven-redis
+    ports:
+      - "6379:6379"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: bloomhaven-api
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      DATABASE_URL: "postgresql://bloomhaven:bloomhaven_secret@postgres:5432/bloomhaven?schema=public"
+      REDIS_URL: "redis://redis:6379"
+      JWT_ACCESS_SECRET: "dev-access-secret-change-in-production-min-32"
+      JWT_REFRESH_SECRET: "dev-refresh-secret-change-in-production-min-32"
+      JWT_ACCESS_EXPIRATION: "15m"
+      JWT_REFRESH_EXPIRATION: "7d"
+      PORT: "3000"
+      FRONTEND_URL: "http://localhost:5173"
+      NODE_ENV: "development"
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:

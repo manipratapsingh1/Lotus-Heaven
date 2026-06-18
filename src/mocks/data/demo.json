@@ -1,0 +1,127 @@
+{
+  "rooms": [
+    {
+      "id": "1",
+      "name": "Deluxe King Room",
+      "type": "deluxe",
+      "description": "Spacious room with a king-size bed, modern amenities, and stunning city views. Perfect for couples seeking comfort and luxury.",
+      "price": 299,
+      "originalPrice": 349,
+      "capacity": 2,
+      "size": 35,
+      "amenities": ["WiFi", "Smart TV", "Minibar", "Room Service", "City View", "Air Conditioning"],
+      "images": ["/src/assets/room-deluxe.jpg"],
+      "available": true,
+      "rating": 4.8,
+      "reviewCount": 142,
+      "tags": ["popular", "couples"]
+    },
+    {
+      "id": "2",
+      "name": "Presidential Suite",
+      "type": "suite",
+      "description": "Our most luxurious accommodation featuring separate living areas, premium furnishings, and panoramic views.",
+      "price": 799,
+      "capacity": 4,
+      "size": 85,
+      "amenities": ["WiFi", "Smart TV", "Minibar", "Room Service", "Panoramic View", "Jacuzzi", "Private Balcony", "Butler Service"],
+      "images": ["/src/assets/room-suite.jpg"],
+      "available": true,
+      "rating": 5.0,
+      "reviewCount": 89,
+      "tags": ["luxury", "family"]
+    },
+    {
+      "id": "3",
+      "name": "Executive Double Room",
+      "type": "executive",
+      "description": "Designed for business travelers with a comfortable workspace, high-speed internet, and modern amenities.",
+      "price": 249,
+      "capacity": 2,
+      "size": 32,
+      "amenities": ["WiFi", "Smart TV", "Work Desk", "Room Service", "Coffee Maker", "Air Conditioning"],
+      "images": ["/src/assets/room-executive.jpg"],
+      "available": true,
+      "rating": 4.6,
+      "reviewCount": 203,
+      "tags": ["business"]
+    }
+  ],
+  "bookings": [
+    {
+      "id": "B001",
+      "roomId": "1",
+      "guestName": "John Smith",
+      "guestEmail": "john.smith@email.com",
+      "guestPhone": "+1 234 567 8900",
+      "checkIn": "2025-11-15",
+      "checkOut": "2025-11-18",
+      "guests": 2,
+      "totalPrice": 897,
+      "status": "confirmed",
+      "createdAt": "2025-11-01T10:30:00Z",
+      "qrCode": "QR-B001-XYZ"
+    },
+    {
+      "id": "B002",
+      "roomId": "2",
+      "guestName": "Sarah Johnson",
+      "guestEmail": "sarah.j@email.com",
+      "guestPhone": "+1 234 567 8901",
+      "checkIn": "2025-11-20",
+      "checkOut": "2025-11-25",
+      "guests": 2,
+      "totalPrice": 3995,
+      "status": "pending",
+      "specialRequests": "Late check-in requested",
+      "createdAt": "2025-11-02T14:20:00Z",
+      "qrCode": "QR-B002-ABC"
+    }
+  ],
+  "seasonalRules": [
+    {
+      "id": "SR1",
+      "name": "Summer Peak",
+      "startDate": "2025-06-01",
+      "endDate": "2025-08-31",
+      "multiplier": 1.3,
+      "roomTypes": ["deluxe", "suite"]
+    },
+    {
+      "id": "SR2",
+      "name": "Holiday Special",
+      "startDate": "2025-12-20",
+      "endDate": "2026-01-05",
+      "multiplier": 1.5,
+      "roomTypes": ["all"]
+    }
+  ],
+  "staff": [
+    {
+      "id": "S1",
+      "name": "Alice Manager",
+      "role": "manager",
+      "email": "alice@lotus.com",
+      "shifts": [
+        {
+          "date": "2025-11-10",
+          "start": "09:00",
+          "end": "17:00"
+        }
+      ]
+    },
+    {
+      "id": "S2",
+      "name": "Bob Receptionist",
+      "role": "receptionist",
+      "email": "bob@lotus.com",
+      "shifts": [
+        {
+          "date": "2025-11-10",
+          "start": "07:00",
+          "end": "15:00"
+        }
+      ]
+    }
+  ]
+}
