@@ -29,3 +29,6 @@ dist-ssr
 !.env.example
 backend/.env
 backend/.env.*
+
+# Bun
+bun.lockb
